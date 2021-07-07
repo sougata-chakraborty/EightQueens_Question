@@ -5,17 +5,16 @@ public class GameStrategy {
 	private int getColumn(int cellId) {
 		// WRITE YOUR LOGIC HERE...................................		
 
-		return 0;	// just for the heck of it
+		return cellId%8;
 	}
 	
 	private int getRow(int cellId) {
 		// WRITE YOUR LOGIC HERE....................................
 		
-		return 0;	// just for the heck of it
+		return cellId/8;
 	}
 
 	public boolean isValidPosition(int cellId) {
-		boolean isValid = true;
 
 		if(numQueens == 8) throw new GameOverException();	// just return out of the method
 
@@ -29,7 +28,49 @@ public class GameStrategy {
 			WRITE YOUR LOGIC HERE...............................
 
 		*/
-		return isValid;
+		
+		//check if already there
+		if(placedQueens[row][col]) {
+			return false;
+		}
+		//check in same row or column
+		for(int i=0;i<8;i++) {
+			if(placedQueens[row][i] || placedQueens[i][col])
+				return false;
+		}
+		//check in diagonals
+		int tempRow, tempCol;
+		tempRow = row+1;
+		tempCol = col+1;
+		while(tempRow<8 && tempCol<8) {
+			if(placedQueens[tempRow++][tempCol++]) {
+				return false;
+			}
+		}
+		tempRow = row-1;
+		tempCol = col-1;
+		while(tempRow>=0 && tempCol>=0) {
+			if(placedQueens[tempRow--][tempCol--]) {
+				return false;
+			}
+		}
+		tempRow = row+1;
+		tempCol = col-1;
+		while(tempRow<8 && tempCol>=0) {
+			if(placedQueens[tempRow++][tempCol--]) {
+				return false;
+			}
+		}
+		tempRow = row-1;
+		tempCol = col+1;
+		while(tempRow>=0 && tempCol<8) {
+			if(placedQueens[tempRow--][tempCol++]) {
+				return false;
+			}
+		}
+		placedQueens[row][col]=true;
+		numQueens++;
+		return true;
 	}
 }
 
